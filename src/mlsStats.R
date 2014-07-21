@@ -136,7 +136,7 @@ library(bestglm)
 
 ####################
 
-old.model1 <- lm(mlsOld$PPG ~ mlsOld$GDPG)
+old.model1 <- lm(mls$Old$PPG ~ mls$Old$GDPG)
 Anova(old.model1)
 summary(old.model1)
 
@@ -144,7 +144,7 @@ summary(old.model1)
 
 # Plot and predict PPG by W
 pdf("../data/figs/ppg~w01.pdf")
-ggplot(mlsOld, aes(x = W, y = PPG)) +
+ggplot(mls$Old, aes(x = W, y = PPG)) +
   geom_point(shape = 1) +    # Use hollow circles
   geom_smooth(method = lm)   # Add linear regression line
 dev.off()
@@ -152,7 +152,7 @@ dev.off()
 ####################
 
 # USE THE . TO INCLUDE ALL PARAMETERS IN THE MODEL AT ONCE!!!
-old.model2 <- lm(PPG ~ ., data = mlsOld)
+old.model2 <- lm(PPG ~ ., data = mls$Old)
 Anova(old.model2)
 summary(old.model2) #best model here based on adj-R-sq
 
@@ -160,7 +160,7 @@ summary(old.model2) #best model here based on adj-R-sq
 
 # AIC model for multiple regression
 # Use paired down DF
-mlsOld2 <- mlsOld[ , c(1, 3, 6:9, 13:15)]
+mlsOld2 <- mls$Old[ , c(1, 3, 6:9, 13:15)]
 old.model3 <- lm(PPG ~ ., data = mlsOld2)
 Anova(old.model3)
 summary(old.model3)
@@ -202,3 +202,19 @@ percent.error.range <- rm.error.avg / (max(mlsNow3$PPG) -
                                          min(mlsNow3$PPG))
 percent.error.range # 0.0358 is 2.9% of the range for PPG
 
+#################################################
+#################################################
+
+mlsYear <- split(mls$Old, mls$Old$Year)
+wld <- grep("^W$|^L$|^D$", names(mls$Old), perl = TRUE)
+
+for(i in 1:length(mlsYear)){
+    print(
+        mlsYear[[i]]$Year[1]
+        )
+    print(
+        colSums(mlsYear[[i]][wld])
+        )
+}
+
+table(mls$Old$Club)
