@@ -33,12 +33,16 @@ row.names(mlsNow) <- NULL
 
 # Fix any extra spaces in the default column names
 colNames <- names(mlsNow)
-colNames <- gsub(" ", "", colNames, fixed = TRUE)
+colNames <- gsub("\\s+", "", colNames, perl = TRUE)
 names(mlsNow) <- colNames
 
 # Change the club names to their abbreviations
 clubNames <- read.table("clubNames.csv", sep = "|", header = TRUE)
 
+# Clean up the extra spaces and characters added to the club names when playoffs are clinched
+mlsNow$Club <- gsub("^x\\s+\\-\\s+", "", mlsNow$Club, perl = TRUE)
+
+# Now add in the abbreviations
 mlsNow <- merge(mlsNow, clubNames, by = "Club", all.x = TRUE)
 
 # Change the col's to the appropriate data type/class
