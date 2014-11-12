@@ -40,7 +40,7 @@ names(mlsNow) <- colNames
 clubNames <- read.table("clubNames.csv", sep = "|", header = TRUE)
 
 # Clean up the extra spaces and characters added to the club names when playoffs are clinched
-mlsNow$Club <- gsub("^x\\s+\\-\\s+", "", mlsNow$Club, perl = TRUE)
+mlsNow$Club <- gsub("^\\w\\s+\\-\\s+", "", mlsNow$Club, perl = TRUE)
 
 # Now add in the abbreviations
 mlsNow <- merge(mlsNow, clubNames, by = "Club", all.x = TRUE)

@@ -9,6 +9,8 @@
 
 # Load in any packages to be used
 library(ggplot2)
+library(tidyr)
+library(dplyr)
 
 ####################
 
